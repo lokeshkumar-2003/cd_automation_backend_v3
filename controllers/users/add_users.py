@@ -58,16 +58,16 @@ def add_user(usertype):
                 "message": "Password must be at least 8 characters long, contain at least one uppercase letter, one digit, and one special character."
             }), 400
 
-        user_id = str(uuid.uuid4())
+      #  user_id = str(uuid.uuid4())
         user_role = "Admin" if usertype == "admin_users" else "User"
 
         insert_query = f"""
             INSERT INTO {usertype} 
-            (UserId, EmailId, Phoneno, Username, Password, Usertype, Device_uuid, Name) 
+            (EmailId, Phoneno, Username, Password, Usertype, Device_uuid, Name) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         """
 
-        cursor.execute(insert_query, (user_id, emailId, phoneno, username, password, user_role, userdeviceid, name))
+        cursor.execute(insert_query, (emailId, phoneno, username, password, user_role, userdeviceid, name))
         conn.commit()
 
         return jsonify({"message": "User registered successfully"}), 201
